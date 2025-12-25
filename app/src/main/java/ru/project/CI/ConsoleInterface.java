@@ -5,6 +5,8 @@ import ru.project.Domain.models.StudentBuilder;
 import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Service.IStudentService;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ConsoleInterface {
@@ -12,8 +14,15 @@ public class ConsoleInterface {
     private final Scanner scanner;
 
     public ConsoleInterface(IStudentService studentService) {
-        this.scanner = new Scanner(System.in);
         this.studentService = studentService;
+
+        this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+
+        try {
+            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void run() {
@@ -136,6 +145,7 @@ public class ConsoleInterface {
         studentBuilder.setGroupId(groupId);
 
         while (true) {
+            clearConsole();
             System.out.println("Введите номер зачетки");
             String documentIdString = scanner.nextLine();
             try {
@@ -148,6 +158,7 @@ public class ConsoleInterface {
         }
 
         while (true) {
+            clearConsole();
             System.out.println("Введите средний балл");
             String averageMarkString = scanner.nextLine();
             try {
