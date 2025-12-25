@@ -17,11 +17,10 @@ public class ConsoleInterface {
     }
 
     public void run() {
-        while(true) {
-            System.out.println(studentService.getAllStuds().toString());
-            System.out.println("1. заполнение коллекции\n" + "2. сортировка\n" + "3. поиск\n" + "4. очистить " +
-                    "коллекцию\n" + "5. выход");
-            String userAnswer = scanner.next();
+        while (true) {
+            printAllStudents();
+            printMainMenu();
+            String userAnswer = scanner.nextLine();
             switch (userAnswer) {
                 case "1": {
                     addToCollection();
@@ -32,19 +31,18 @@ public class ConsoleInterface {
                     break;
                 }
                 case "3": {
-
+                    find();
                     break;
                 }
                 case "4": {
-                    studentService.clearStuds();
-                    System.out.flush();
+                    clearCollection();
                     break;
                 }
                 case "5": {
                     return;
                 }
                 default: {
-                    System.out.flush();
+                    clearConsole();
                     System.out.println("Пользователь ввел неверную команду");
                 }
             }
@@ -52,101 +50,28 @@ public class ConsoleInterface {
     }
 
     private void addToCollection() {
-        System.out.flush();
-        while (true) {
-            System.out.println("1. заполнение из файла.\n" + "2. генерация студентов.\n" + "3. добавить " +
-                    "студента вручную.");
-            String userAnswer = scanner.next();
+        clearConsole();
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("1. заполнение из файла.");
+            System.out.println("2. генерация студентов.");
+            System.out.println("3. добавить студента вручную.");
+            String userAnswer = scanner.nextLine();
             switch (userAnswer) {
                 case "1": {
-                    System.out.flush();
-                    System.out.println("Введите корректный путь к файлу");
-                    String path = scanner.next();
-                    if (studentService.fillFromFile(path)) {
-                        System.out.flush();
-                        System.out.println("Студенты успешно добавлены");
-                        return;
-                    } else {
-                        System.out.flush();
-                        System.out.println("Пользователь ввел неверный путь к файлу");
-                        break;
-                    }
+                    isRunning = addStudentsFromFile();
+                    break;
                 }
                 case "2": {
-                    System.out.flush();
-                    System.out.println("Введите количество генерируемых студентов");
-                    String totalString = scanner.next();
-                    try {
-                        int totalInt = Integer.parseInt(totalString);
-                        System.out.flush();
-                        if (totalInt > 0) {
-                            studentService.genStuds(totalInt);
-                            System.out.println("Студенты успешно добавлены");
-                            return;
-                        } else {
-                            System.out.println("Пользователь ввел некорректное число");
-                            break;
-                        }
-                    } catch (NumberFormatException e) {
-                            System.out.flush();
-                            System.out.println("Пользователь ввел не число");
-                            break;
-                    }
+                    isRunning = generateStudents();
+                    break;
                 }
                 case "3": {
-                    StudentBuilder studentBuilder = new StudentBuilder();
-
-                    System.out.flush();
-                    System.out.println("Введите фамилию студента");
-                    String surName = scanner.next();
-                    studentBuilder.setSurname(surName);
-
-                    System.out.flush();
-                    System.out.println("Введите имя студента");
-                    String name = scanner.next();
-                    studentBuilder.setName(name);
-
-                    System.out.flush();
-                    System.out.println("Введите номер группы");
-                    String groupId = scanner.next();
-                    studentBuilder.setGroupId(groupId);
-
-                    while (true) {
-                        System.out.println("Введите номер зачетки");
-                        String documentIdString = scanner.next();
-                        try {
-                            studentBuilder.setAchSheetNum(Integer.parseInt(documentIdString));
-                            break;
-                        } catch (NumberFormatException e) {
-                            System.out.flush();
-                            System.out.println("Пользователь ввел не число");
-                        }
-                    }
-
-                    while (true) {
-                        System.out.println("Введите средний балл");
-                        String averageMarkString = scanner.next();
-                        try {
-                            studentBuilder.setAvgRating(Float.parseFloat(averageMarkString));
-                            break;
-                        } catch (NumberFormatException e) {
-                            System.out.flush();
-                            System.out.println("Пользователь ввел не число");
-                        }
-                    }
-
-                    try {
-                        studentService.addStudent(studentBuilder.build());
-                        System.out.println("Студент успешно добавлен");
-                        return;
-                    } catch (BuildingStudentException e) {
-                        System.out.flush();
-                        System.out.println(e.getMessage());
-                        break;
-                    }
+                    isRunning = checkValidationStudent(createStudent());
+                    break;
                 }
                 default: {
-                    System.out.flush();
+                    clearConsole();
                     System.out.println("Пользователь ввел неверную команду");
                 }
             }
@@ -154,123 +79,221 @@ public class ConsoleInterface {
     }
 
     private void sort() {
-        System.out.flush();
-        SortOptions.SortAlgs sortAlgs = null;
-        SortOptions.SortTypes sortTypes = null;
-        SortOptions.SortDirections sortDirection = SortOptions.SortDirections.DESC;
-        boolean process = true;
-        while (process) {
-            System.out.println("Выберите алгоритм сортировки:\n" +"1. First\n" + "2. Second");
-            String userAnswer = scanner.next();
-            switch (userAnswer) {
-                case "1": {
-                    sortAlgs = null;
-                    process = false;
-                    break;
-                }
-                case "2": {
-                    sortAlgs = null;
-                    process = false;
-                    break;
-                }
-                default: {
-                    System.out.flush();
-                    System.out.println("Такого алгоритма нет");
-                }
-            }
-        }
-        process = true;
-        while (process) {
-            System.out.println("Выберите тип сортировки:\n" +"1. по всем полям\n" + "2. по номеру зачетки");
-            String userAnswer = scanner.next();
-            switch (userAnswer) {
-                case "1": {
-                    sortTypes = SortOptions.SortTypes.DEFAULT;
-                    while (process) {
-                        System.out.println("Выберите порядок сортировки:\n" + "1. по возрастанию\n" + "2. по убыванию");
-                        String userAnswer2 = scanner.next();
-                        switch (userAnswer2) {
-                            case "1": {
-                                sortDirection = SortOptions.SortDirections.ASC;
-                                process = false;
-                                break;
-                            }
-                            case "2": {
-                                sortDirection = SortOptions.SortDirections.DESC;
-                                process = false;
-                                break;
-                            }
-                            default: {
-                                System.out.flush();
-                                System.out.println("Такого порядка сортировки нет");
-                            }
-                        }
-                    }
-                }
-                case "2": {
-                    sortTypes = SortOptions.SortTypes.BY_ONE;
-                    process = false;
-                    break;
-                }
-                default: {
-                    System.out.flush();
-                    System.out.println("Такого типа сортировки нет");
-                    break;
-                }
-            }
+        clearConsole();
+        SortOptions.SortAlgs sortAlgs = choosingAlgorithm();
+        SortOptions.SortTypes sortType = choosingSortType();
+        SortOptions.SortDirections sortDirection = SortOptions.SortDirections.ASC;
+        if (sortType == SortOptions.SortTypes.DEFAULT) {
+            sortDirection = choosingSortDirection();
         }
         studentService.sortStuds(new SortOptions(sortDirection, sortAlgs));
     }
-
+    
     private void find() {
+        StudentBuilder studentBuilder = createStudent();
+        try {
+            int count = studentService.searchStud(studentBuilder.build());
+            System.out.println("Студентов с подходящим профилем:" + count);
+        } catch (BuildingStudentException e) {
+            clearConsole();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void clearCollection() {
+        studentService.clearStuds();
+        clearConsole();
+    }
+
+    private boolean checkValidationStudent(StudentBuilder studentBuilder) {
+        try {
+            studentService.addStudent(studentBuilder.build());
+            System.out.println("Студент успешно добавлен");
+            return false;
+        } catch (BuildingStudentException e) {
+            clearConsole();
+            System.out.println(e.getMessage());
+            return true;
+        }
+    }
+
+    private StudentBuilder createStudent() {
         StudentBuilder studentBuilder = new StudentBuilder();
 
-        System.out.flush();
+        clearConsole();
         System.out.println("Введите фамилию студента");
-        String surName = scanner.next();
+        String surName = scanner.nextLine();
         studentBuilder.setSurname(surName);
 
-        System.out.flush();
+        clearConsole();
         System.out.println("Введите имя студента");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         studentBuilder.setName(name);
 
-        System.out.flush();
+        clearConsole();
         System.out.println("Введите номер группы");
-        String groupId = scanner.next();
+        String groupId = scanner.nextLine();
         studentBuilder.setGroupId(groupId);
 
         while (true) {
             System.out.println("Введите номер зачетки");
-            String documentIdString = scanner.next();
+            String documentIdString = scanner.nextLine();
             try {
                 studentBuilder.setAchSheetNum(Integer.parseInt(documentIdString));
                 break;
             } catch (NumberFormatException e) {
-                System.out.flush();
+                clearConsole();
                 System.out.println("Пользователь ввел не число");
             }
         }
 
         while (true) {
             System.out.println("Введите средний балл");
-            String averageMarkString = scanner.next();
+            String averageMarkString = scanner.nextLine();
             try {
                 studentBuilder.setAvgRating(Float.parseFloat(averageMarkString));
                 break;
             } catch (NumberFormatException e) {
-                System.out.flush();
+                clearConsole();
                 System.out.println("Пользователь ввел не число");
             }
         }
+        return studentBuilder;
+    }
 
-        try {
-            int count = studentService.searchStud(studentBuilder.build());
-            System.out.println("Студентов с подходящим профелем:" + count);
-        } catch (BuildingStudentException e) {
-            System.out.flush();
-            System.out.println(e.getMessage());
+    private boolean addStudentsFromFile() {
+        clearConsole();
+        System.out.println("Введите корректный путь к файлу");
+        String path = scanner.nextLine();
+        if (studentService.fillFromFile(path)) {
+            clearConsole();
+            System.out.println("Студенты успешно добавлены");
+            return false;
+        } else {
+            clearConsole();
+            System.out.println("Пользователь ввел неверный путь к файлу");
+            return true;
         }
     }
 
+    private boolean generateStudents() {
+        clearConsole();
+        System.out.println("Введите количество генерируемых студентов");
+        String totalString = scanner.nextLine();
+        try {
+            int totalInt = Integer.parseInt(totalString);
+            clearConsole();
+            if (totalInt > 0) {
+                studentService.genStuds(totalInt);
+                System.out.println("Студенты успешно добавлены");
+                return false;
+            } else {
+                System.out.println("Пользователь ввел некорректное число");
+                return true;
+            }
+        } catch (NumberFormatException e) {
+            clearConsole();
+            System.out.println("Пользователь ввел не число");
+            return true;
+        }
+    }
+
+    private SortOptions.SortAlgs choosingAlgorithm() {
+        boolean isRunning = true;
+        SortOptions.SortAlgs sortAlgs = null;
+        while (isRunning) {
+            System.out.println("Выберите алгоритм сортировки:");
+            System.out.println("1. First");
+            System.out.println("2. Second");
+            String userAnswer = scanner.nextLine();
+            switch (userAnswer) {
+                case "1": {
+                    sortAlgs = null;
+                    isRunning = false;
+                    break;
+                }
+                case "2": {
+                    sortAlgs = null;
+                    isRunning = false;
+                    break;
+                }
+                default: {
+                    clearConsole();
+                    System.out.println("Такого алгоритма нет");
+                }
+            }
+        }
+        return sortAlgs;
+    }
+
+    private SortOptions.SortTypes choosingSortType() {
+        SortOptions.SortTypes sortType = SortOptions.SortTypes.DEFAULT;
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("Выберите тип сортировки:");
+            System.out.println("1. по всем полям");
+            System.out.println("2. по номеру зачетки");
+            String userAnswer = scanner.nextLine();
+            switch (userAnswer) {
+                case "1": {
+                    isRunning = false;
+                    break;
+                }
+                case "2": {
+                    sortType = SortOptions.SortTypes.BY_ONE;
+                    isRunning = false;
+                    break;
+                }
+                default: {
+                    clearConsole();
+                    System.out.println("Такого типа сортировки нет");
+                    break;
+                }
+            }
+        }
+        return sortType;
+    }
+
+    private SortOptions.SortDirections choosingSortDirection() {
+        boolean isRunning = true;
+        SortOptions.SortDirections sortDirection = SortOptions.SortDirections.ASC;
+        while (isRunning) {
+            System.out.println("Выберите порядок сортировки:");
+            System.out.println("1. по возрастанию");
+            System.out.println("2. по убыванию");
+            String userAnswer2 = scanner.nextLine();
+            switch (userAnswer2) {
+                case "1": {
+                    isRunning = false;
+                    break;
+                }
+                case "2": {
+                    sortDirection = SortOptions.SortDirections.DESC;
+                    isRunning = false;
+                    break;
+                }
+                default: {
+                    clearConsole();
+                    System.out.println("Такого порядка сортировки нет");
+                }
+            }
+        }
+        return sortDirection;
+    }
+
+    private void clearConsole() {
+        System.out.println("\n".repeat(50));
+    }
+
+    private void printAllStudents() {
+        System.out.println(studentService.getAllStuds().toString());
+    }
+
+    private void printMainMenu() {
+        System.out.println("1. заполнение коллекции");
+        System.out.println("2. сортировка");
+        System.out.println("3. поиск");
+        System.out.println("4. очистить коллекцию");
+        System.out.println("5. выход");
+    }
 }
