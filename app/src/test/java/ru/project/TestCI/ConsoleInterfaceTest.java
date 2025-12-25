@@ -86,6 +86,17 @@ public class ConsoleInterfaceTest {
     }
 
     @Test
+    public void testSortWithDirection() {
+        provideInput("2\n1\n1\n2\n5\n");
+        consoleInterface.run();
+
+        assertNotNull(serviceStub.lastSortOptions);
+
+        Object direction = getPrivateField(serviceStub.lastSortOptions, "orderBy");
+        assertEquals(SortOptions.SortDirections.DESC, direction);
+    }
+
+    @Test
     public void testSearchStudent() {
         String input = "3\nPetrov\nPetr\nG2\n999\n5.0\n5\n";
         provideInput(input);
