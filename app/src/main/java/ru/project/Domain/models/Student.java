@@ -27,4 +27,24 @@ public class Student {
                 Math.abs(s.avgRating - avgRating) < 0.01;
         } else return false;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public int getAcheivmentSheetNumber() {
+        return acheivmentSheetNumber;
+    }
+
+    public float getAvgRating() {
+        return avgRating;
+    }
 }
