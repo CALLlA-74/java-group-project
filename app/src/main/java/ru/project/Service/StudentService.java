@@ -1,6 +1,9 @@
-package ru.project.Lib.Sorting;
+package ru.project.Service;
+
+import ru.project.Lib.Sorting.SortOptions;
 
 import ru.project.Domain.models.Student;
+import ru.project.Repository.IStudentRepo;
 
 import java.io.FileWriter;
 import java.io.IOException;

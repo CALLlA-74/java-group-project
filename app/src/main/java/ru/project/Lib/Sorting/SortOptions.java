@@ -7,28 +7,22 @@ public class SortOptions {
     }
 
     public enum SortAlgs {
-        BUBBLE,
-        QUICK
+        BUBBLE, QUICK
     }
 
-    public enum SortTypes {
-        DEFAULT,
-        BY_ONE
+    private final SortDirections direction;
+    private final SortAlgs algorithm;
+
+    public SortOptions(SortDirections direction, SortAlgs algorithm) {
+        this.direction = direction;
+        this.algorithm = algorithm;
     }
 
-    private SortDirections orderBy;
-    private SortAlgs sortAlg;
-
-    public SortOptions(SortDirections orderBy, SortAlgs sortAlg) {
-        this.orderBy = orderBy;
-        this.sortAlg = sortAlg;
+    public SortDirections getDirection() {
+        return direction;
     }
 
-    public SortAlgs getSortAlg() {
-        return sortAlg;
-    }
-
-    public SortDirections getSortType() {
-        return orderBy;
+    public SortAlgs getAlgorithm() {
+        return algorithm;
     }
 }

@@ -1,6 +1,5 @@
 package ru.project.Lib.Sorting;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,13 +21,20 @@ public class QuickSort<T> implements SortAlgorithm<T> {
     private int partition(List<T> list, int low, int high, Comparator<T> comp) {
         T pivot = list.get(high);
         int i = low - 1;
+
         for (int j = low; j < high; j++) {
             if (comp.compare(list.get(j), pivot) <= 0) {
                 i++;
-                Collections.swap(list, i, j);
+                T tmp = list.get(i);
+                list.set(i, list.get(j));
+                list.set(j, tmp);
             }
         }
-        Collections.swap(list, i + 1, high);
+
+        T tmp = list.get(i + 1);
+        list.set(i + 1, list.get(high));
+        list.set(high, tmp);
+
         return i + 1;
     }
 }

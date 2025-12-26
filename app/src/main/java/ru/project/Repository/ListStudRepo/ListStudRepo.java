@@ -1,4 +1,4 @@
-package ru.project.Repository.ListStudRepo;
+/*package ru.project.Repository.ListStudRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,9 @@ import ru.project.Domain.models.Student;
 import ru.project.Repository.IStudentRepo;
 
 public class ListStudRepo implements IStudentRepo {
-    private List<Student> students;
+   private List<Student> students;
 
-    public ListStudRepo(List<Student> students) {
+   public ListStudRepo(List<Student> students) {
         this.students = students;
     }
 
@@ -38,3 +38,4 @@ public class ListStudRepo implements IStudentRepo {
     }
     
 }
+*/
