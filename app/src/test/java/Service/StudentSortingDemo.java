@@ -1,4 +1,4 @@
-package ru.project;
+package Service;
 
 import ru.project.Domain.models.Student;
 import ru.project.Lib.Sorting.SortOptions;
