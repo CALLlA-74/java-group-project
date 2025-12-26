@@ -1,6 +1,7 @@
-package ru.project.Lib.Sorting;
+package ru.project;
 
 import ru.project.Domain.models.Student;
+import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Service.Config;
 import ru.project.Service.IStudentService;
 import ru.project.Service.StudentService;
