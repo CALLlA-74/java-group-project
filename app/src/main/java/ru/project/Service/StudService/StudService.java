@@ -40,8 +40,16 @@ public class StudService implements IStudentService {
 
     @Override
     public void sortStuds(SortOptions options) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'sortStuds'");
+        if (studentRepo == null) {
+            throw new IllegalStateException("StudentRepo is not initialized");
+        }
+        //Если у репозитория есть метод добавил на всякий getAllStuds()
+        List<Student> allStudents = studentRepo.getAllStuds();
+        if (allStudents == null || allStudents.isEmpty()) return;
+
+        studentRepo.sort(allStudents, options);
+
+        studentRepo.setAllStuds(allStudents);
     }
 
     @Override
