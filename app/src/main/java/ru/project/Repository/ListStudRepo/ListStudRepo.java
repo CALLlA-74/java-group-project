@@ -1,4 +1,4 @@
-/*package ru.project.Repository.ListStudRepo;
+package ru.project.Repository.ListStudRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,4 +38,3 @@ public class ListStudRepo implements IStudentRepo {
     }
     
 }
-*/

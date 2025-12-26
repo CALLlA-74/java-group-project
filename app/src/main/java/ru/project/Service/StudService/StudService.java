@@ -1,4 +1,4 @@
-/*package ru.project.Service.StudService;
+package ru.project.Service.StudService;
 
 import java.util.List;
 
@@ -57,4 +57,3 @@ public class StudService implements IStudentService {
     }
     
 }
-*/
