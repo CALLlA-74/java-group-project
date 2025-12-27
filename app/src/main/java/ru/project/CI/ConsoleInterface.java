@@ -95,7 +95,7 @@ public class ConsoleInterface {
         if (sortType == SortOptions.SortTypes.DEFAULT) {
             sortDirection = choosingSortDirection();
         }
-        studentService.sortStuds(new SortOptions(sortDirection, sortAlgs));
+        studentService.sortStuds(new SortOptions(sortDirection, sortAlgs, sortType));
     }
     
     private void find() {
@@ -251,7 +251,7 @@ public class ConsoleInterface {
                     break;
                 }
                 case "2": {
-                    sortType = SortOptions.SortTypes.BY_ONE;
+                    sortType = SortOptions.SortTypes.EVEN_ONLY;
                     isRunning = false;
                     break;
                 }
