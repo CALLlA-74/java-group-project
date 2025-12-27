@@ -1,7 +1,7 @@
 package ru.project.Repository.ListStudRepo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import ru.project.Domain.models.Student;
 import ru.project.Repository.IStudentRepo;
@@ -15,14 +15,13 @@ public class ListStudRepo implements IStudentRepo {
 
     @Override
     public boolean store(Student s) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'store'");
+        students = Stream.concat(students.stream(), Stream.of(s)).toList();
+        return true;
     }
 
     @Override
     public List<Student> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return students;
     }
 
     @Override
@@ -33,8 +32,7 @@ public class ListStudRepo implements IStudentRepo {
 
     @Override
     public void removeAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeAll'");
+        students.clear();
     }
     
 }

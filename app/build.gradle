@@ -28,8 +28,8 @@ dependencies {
     implementation libs.guava
 }
 
-test {
-    useJUnitPlatform()
+dependencies {
+    implementation 'com.github.javafaker:javafaker:1.0.2'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

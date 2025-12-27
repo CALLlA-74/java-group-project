@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import ru.project.Domain.models.Student;
 import ru.project.Lib.Sorting.SortOptions;
@@ -13,6 +14,21 @@ import ru.project.Service.IStudentService;
 import ru.project.Service.StudService.mocks.MockStudRepo;
 
 public class StudServiceTest {
+    @SuppressWarnings("null")
+    @Test public void genStudsTest() {
+        IStudentRepo repo = Mockito.mock(IStudentRepo.class);
+        Mockito.when(repo.store(Mockito.any(Student.class))).thenReturn(true);
+
+        IStudentService service = new StudService(repo);
+        assert(service.genStuds(5));
+
+
+        repo = Mockito.mock(IStudentRepo.class);
+        Mockito.when(repo.store(Mockito.any(Student.class))).thenReturn(false);
+        
+        service = new StudService(repo);
+        assert(service.genStuds(5) == false);
+    }
 
     @Test
     public void sortStudsTest() {

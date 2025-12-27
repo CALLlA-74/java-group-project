@@ -9,21 +9,42 @@ import java.util.ArrayList;
 import ru.project.Lib.Sorting.*;
 
 import ru.project.Config.Config;
+import ru.project.Domain.exceptions.BuildingStudentException;
 import ru.project.Domain.models.Student;
+import ru.project.Domain.models.StudentBuilder;
 import ru.project.Repository.IStudentRepo;
 import ru.project.Service.IStudentService;
+import ru.project.Service.StringGenerator;
 
 public class StudService implements IStudentService {
     private IStudentRepo studentRepo;
+    private StringGenerator generator;
 
     public StudService(IStudentRepo studentRepo) {
         this.studentRepo = studentRepo;
+        generator = new StringGenerator();
     }
 
     @Override
     public boolean genStuds(int numOfStuds) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'genStuds'");
+        boolean ans = true;
+        for (int i = 0; i < numOfStuds; i++) {
+            try {
+                ans &= studentRepo.store(
+                    new StudentBuilder()
+                    .setName(generator.genFirstName())
+                    .setSurname(generator.genLastName())
+                    .setGroupId(generator.genGroupId())
+                    .setAchSheetNum(generator.genSheetNum())
+                    .setAvgRating(generator.genRating())
+                    .build()
+                );
+            } catch (BuildingStudentException e) {
+                ans = false;
+            }
+        }
+
+        return ans;
     }
 
     @Override
@@ -40,8 +61,7 @@ public class StudService implements IStudentService {
 
     @Override
     public List<Student> getAllStuds() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllStuds'");
+        return studentRepo.getAll();
     }
 
     @Override
