@@ -1,27 +1,25 @@
-package ru.project.Repository.ListStudRepo;
+package ru.project.Service.StudService.mocks;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import ru.project.Domain.models.Student;
 import ru.project.Repository.IStudentRepo;
 
-public class ListStudRepo implements IStudentRepo {
-   private List<Student> students;
+public class MockStudRepo implements IStudentRepo {
+    private List<Student> studs;
 
-   public ListStudRepo(List<Student> students) {
-        this.students = students;
+    public MockStudRepo(List<Student> studs) {
+        this.studs = studs;
     }
 
     @Override
     public boolean store(Student s) {
-        students = Stream.concat(students.stream(), Stream.of(s)).toList();
-        return true;
+        return studs.add(s);
     }
 
     @Override
     public List<Student> getAll() {
-        return students;
+        return studs;
     }
 
     @Override
@@ -32,7 +30,8 @@ public class ListStudRepo implements IStudentRepo {
 
     @Override
     public void removeAll() {
-        students.clear();
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeAll'");
     }
     
 }

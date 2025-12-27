@@ -1,15 +1,15 @@
 package ru.project.Domain.models;
 
 public class Student {
-    private String name, 
-        surname, 
-        groupId;
+    private String name,
+            surname,
+            groupId;
     private int acheivmentSheetNumber;
     private float avgRating;
 
-    public Student(String name, String surname, String groupId, 
-        int acheivmentSheetNumber, float avgRating) {
-        
+    public Student(String name, String surname, String groupId,
+                   int acheivmentSheetNumber, float avgRating) {
+
         this.name = name;
         this.surname = surname;
         this.groupId = groupId;
@@ -17,15 +17,18 @@ public class Student {
         this.avgRating = avgRating;
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof Student) {
-            Student s = (Student) o;
-            return s.name.equals(name) && 
-                s.surname.equals(surname) &&
-                s.groupId.equals(groupId) &&
-                s.acheivmentSheetNumber == acheivmentSheetNumber &&
-                Math.abs(s.avgRating - avgRating) < 0.01;
-        } else return false;
+    //ГЕТТЕРЫ
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public float getAvgRating() {
+        return avgRating;
+    }
+
+    public int getAcheivmentSheetNumber() {
+        return acheivmentSheetNumber;
     }
 
     public String getName() {
@@ -36,15 +39,28 @@ public class Student {
         return surname;
     }
 
-    public String getGroupId() {
-        return groupId;
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Student) {
+            Student s = (Student) o;
+            return s.name.equals(name) &&
+                    s.surname.equals(surname) &&
+                    s.groupId.equals(groupId) &&
+                    s.acheivmentSheetNumber == acheivmentSheetNumber &&
+                    Math.abs(s.avgRating - avgRating) < 0.01;
+        } else return false;
     }
 
-    public int getAcheivmentSheetNumber() {
-        return acheivmentSheetNumber;
-    }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-    public float getAvgRating() {
-        return avgRating;
+        sb.append(surname).append(" ").append(name).append(System.lineSeparator());
+        sb.append("   группа: ").append(groupId).append(System.lineSeparator());
+        sb.append("   номер зачетки: ").append(acheivmentSheetNumber).append(System.lineSeparator());
+        sb.append("   средний балл: ")
+                .append(Math.round(avgRating * 100.0) / 100.0);
+
+        return sb.toString();
     }
 }

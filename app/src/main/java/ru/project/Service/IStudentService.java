@@ -14,7 +14,7 @@ public interface IStudentService {
     public boolean genStuds(int numOfStuds);
 
     /**
-     * Извлекает информацию о студентах из указанного файла и добавляет их 
+     * Извлекает информацию о студентах из указанного файла и добавляет их
      * в конец коллекции
      * @param filePath -- путь к файлу
      * @return -- true при успешной генерации
@@ -44,7 +44,7 @@ public interface IStudentService {
      * @return -- количество студентов, равных по значениям полей "ключу"
      */
     public int searchStud(Student stud);
-    
+
     /**
      * Очищает коллекцию студентов
      */
