@@ -52,12 +52,9 @@ public class Student {
     }
     @Override
     public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", groupId='" + groupId + '\'' +
-                ", acheivmentSheetNumber=" + acheivmentSheetNumber +
-                ", avgRating=" + avgRating +
-                '}';
+        return surname + " " + name + System.lineSeparator() +
+                "   группа: " + groupId + System.lineSeparator() +
+                "   номер зачетки: " + acheivmentSheetNumber + System.lineSeparator() +
+                "   средний балл: " + String.format("%.2f", avgRating);
     }
 }
