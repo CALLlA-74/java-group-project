@@ -32,13 +32,7 @@ public class StudServiceTest {
 
     @Test
     public void sortStudsTest() {
-
-        //Создаем "MockStudent" тестовую коллекцию
-        var mockStudents = initStudents();
-        
-        //Создаем репозиторий и сервис
-        IStudentRepo repo = new MockStudRepo(mockStudents);
-        IStudentService service = new StudService(repo);
+        IStudentService service = initService();
 
         //QuickSort ASC по всем полям
         SortOptions quickAsc = new SortOptions(
@@ -48,11 +42,10 @@ public class StudServiceTest {
         );
         service.sortStuds(quickAsc);
 
-        checkStuds(repo.getAll(), quickAsc);
+        checkStuds(service.getAllStuds(), quickAsc);
 
         //BubbleSort DESC по всем полям
-        repo = new MockStudRepo(initStudents());
-        service = new StudService(repo);
+        service = initService();
 
         SortOptions bubbleDesc = new SortOptions(
             SortOptions.SortDirections.DESC,
@@ -62,13 +55,12 @@ public class StudServiceTest {
         service.sortStuds(bubbleDesc);
 
         System.out.println("\n=== BubbleSort DESC по всем полям ===");
-        checkStuds(repo.getAll(), bubbleDesc);
+        checkStuds(service.getAllStuds(), bubbleDesc);
 
         //QuickSort ASC только четные номера зачетки
-        var srcStuds = initStudents();
-        mockStudents = srcStuds.subList(0, srcStuds.size());
-        repo = new MockStudRepo(mockStudents);
-        service = new StudService(repo);
+        service = initService();
+        var studs = service.getAllStuds();
+        var srcStuds = studs.subList(0, studs.size());
 
         SortOptions evenOnly = new SortOptions(
             SortOptions.SortDirections.ASC,
@@ -77,16 +69,20 @@ public class StudServiceTest {
         );
         service.sortStuds(evenOnly);
 
-        checkStudsWithEvenNums(srcStuds, repo.getAll(), evenOnly);
+        checkStudsWithEvenNums(srcStuds, service.getAllStuds(), evenOnly);
     }
 
-    private static List<Student> initStudents() {
-        List<Student> mockStudents = new ArrayList<>();
+    private static IStudentService initService() {
+        /*List<Student> mockStudents = new ArrayList<>();
         mockStudents.add(new Student("Ivan", "Ivanov", "B2", 3, 4.5f)); // нечетный
         mockStudents.add(new Student("Petr", "Petrov", "A1", 1, 4.8f)); // нечетный
         mockStudents.add(new Student("Alex", "Sidorov", "A1", 2, 3.9f)); // четный
-        mockStudents.add(new Student("Maria", "Ivanova", "B1", 4, 4.2f)); // четный
-        return mockStudents;
+        mockStudents.add(new Student("Maria", "Ivanova", "B1", 4, 4.2f)); // четный */
+
+        IStudentService service = new StudService(new MockStudRepo(new ArrayList<>()));
+        assert(service.genStuds(1000));
+
+        return service;
     }
 
     private static Comparator<Student> compByOpts(SortOptions opts) {

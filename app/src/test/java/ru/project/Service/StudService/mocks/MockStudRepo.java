@@ -14,8 +14,7 @@ public class MockStudRepo implements IStudentRepo {
 
     @Override
     public boolean store(Student s) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'store'");
+        return studs.add(s);
     }
 
     @Override
