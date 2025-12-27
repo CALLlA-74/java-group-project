@@ -15,7 +15,13 @@ public class ListStudRepo implements IStudentRepo {
 
     @Override
     public boolean store(Student s) {
-        students = Stream.concat(students.stream(), Stream.of(s)).toList();
+        /*students = new LightList<>(
+            (Student[])Stream
+            .concat(students.stream(), Stream.of(s))
+            .toArray()
+        );*/
+
+        Stream.of(s).forEach(stud -> students.add(stud));
         return true;
     }
 
