@@ -50,4 +50,14 @@ public class Student {
                     Math.abs(s.avgRating - avgRating) < 0.01;
         } else return false;
     }
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", groupId='" + groupId + '\'' +
+                ", acheivmentSheetNumber=" + acheivmentSheetNumber +
+                ", avgRating=" + avgRating +
+                '}';
+    }
 }
