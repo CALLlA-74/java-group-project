@@ -7,22 +7,36 @@ public class SortOptions {
     }
 
     public enum SortAlgs {
-        BUBBLE, QUICK
+        BUBBLE,
+        QUICK
     }
 
-    private final SortDirections direction;
-    private final SortAlgs algorithm;
+    public enum SortTypes {
+        DEFAULT,    // обычная сортировка
+        EVEN_ONLY   // доп. задание №1
+    }
 
-    public SortOptions(SortDirections direction, SortAlgs algorithm) {
+    private SortDirections direction;
+    private SortAlgs sortAlg;
+    private SortTypes sortType;
+
+    public SortOptions(SortDirections direction,
+                       SortAlgs sortAlg,
+                       SortTypes sortType) {
         this.direction = direction;
-        this.algorithm = algorithm;
+        this.sortAlg = sortAlg;
+        this.sortType = sortType;
     }
 
     public SortDirections getDirection() {
         return direction;
     }
 
-    public SortAlgs getAlgorithm() {
-        return algorithm;
+    public SortAlgs getSortAlg() {
+        return sortAlg;
+    }
+
+    public SortTypes getSortType() {
+        return sortType;
     }
 }

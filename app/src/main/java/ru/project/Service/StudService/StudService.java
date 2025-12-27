@@ -1,9 +1,15 @@
 package ru.project.Service.StudService;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.Comparator;
+import java.util.ArrayList;
 
+import ru.project.Lib.Sorting.*;
+
+import ru.project.Config.Config;
 import ru.project.Domain.models.Student;
-import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Repository.IStudentRepo;
 import ru.project.Service.IStudentService;
 
@@ -43,13 +49,64 @@ public class StudService implements IStudentService {
         if (studentRepo == null) {
             throw new IllegalStateException("StudentRepo is not initialized");
         }
-        //Если у репозитория есть метод добавил на всякий getAllStuds()
-        List<Student> allStudents = studentRepo.getAllStuds();
-        if (allStudents == null || allStudents.isEmpty()) return;
 
-        studentRepo.sort(allStudents, options);
+        List<Student> students = studentRepo.getAll();
+        if (students == null || students.isEmpty()) {
+            return;
+        }
 
-        studentRepo.setAllStuds(allStudents);
+        sortInternal(students, options);
+        writeToLog(students);
+    }
+
+
+    private void sortInternal(List<Student> students, SortOptions options) {
+
+        //Выбор алгоритма
+        SortAlgorithm<Student> algorithm = switch (options.getSortAlg()) {
+            case BUBBLE -> new BubbleSort<>();
+            case QUICK -> new QuickSort<>();
+        };
+
+        //Компаратор по ТЗ
+        Comparator<Student> comparator = Comparator
+                .comparing(Student::getGroupId)
+                .thenComparing(Student::getAvgRating)
+                .thenComparing(Student::getAcheivmentSheetNumber);
+
+        if (options.getDirection() == SortOptions.SortDirections.DESC) {
+            comparator = comparator.reversed();
+        }
+
+        //DEFAULT / EVEN_ONLY
+        if (options.getSortType() == SortOptions.SortTypes.DEFAULT) {
+            algorithm.sort(students, comparator);
+        } else {
+            sortEvenOnly(students, algorithm, comparator);
+        }
+    }
+
+    private void sortEvenOnly(
+            List<Student> students,
+            SortAlgorithm<Student> algorithm,
+            Comparator<Student> comparator
+    ) {
+        List<Student> evenStudents = new ArrayList<>();
+        List<Integer> evenIndexes = new ArrayList<>();
+
+        for (int i = 0; i < students.size(); i++) {
+            Student s = students.get(i);
+            if (s.getAcheivmentSheetNumber() % 2 == 0) {
+                evenStudents.add(s);
+                evenIndexes.add(i);
+            }
+        }
+
+        algorithm.sort(evenStudents, comparator);
+
+        for (int i = 0; i < evenIndexes.size(); i++) {
+            students.set(evenIndexes.get(i), evenStudents.get(i));
+        }
     }
 
     @Override
@@ -63,5 +120,17 @@ public class StudService implements IStudentService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'clearStuds'");
     }
-    
+
+    private void writeToLog(List<Student> students) {
+        try (FileWriter fw = new FileWriter(Config.logPath, true)) {
+            for (Student s : students) {
+                fw.write(s.toString());
+                fw.write(System.lineSeparator());
+            }
+            fw.write("-----");
+            fw.write(System.lineSeparator());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
