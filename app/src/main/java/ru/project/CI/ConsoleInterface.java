@@ -1,6 +1,7 @@
 package ru.project.CI;
 
 import ru.project.Domain.exceptions.BuildingStudentException;
+import ru.project.Domain.models.Student;
 import ru.project.Domain.models.StudentBuilder;
 import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Service.IStudentService;
@@ -296,7 +297,11 @@ public class ConsoleInterface {
     }
 
     private void printAllStudents() {
-        System.out.println(studentService.getAllStuds().toString());
+        int index = 1;
+        for (Student student : studentService.getAllStuds()) {
+            System.out.println(index + ". " + student.toString());
+            ++index;
+        }
     }
 
     private void printMainMenu() {

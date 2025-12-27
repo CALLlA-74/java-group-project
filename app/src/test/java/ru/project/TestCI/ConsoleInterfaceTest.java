@@ -92,7 +92,7 @@ public class ConsoleInterfaceTest {
 
         assertNotNull(serviceStub.lastSortOptions);
 
-        Object direction = getPrivateField(serviceStub.lastSortOptions, "orderBy");
+        Object direction = getPrivateField(serviceStub.lastSortOptions, "direction");
         assertEquals(SortOptions.SortDirections.DESC, direction);
     }
 
