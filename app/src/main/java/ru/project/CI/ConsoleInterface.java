@@ -211,20 +211,19 @@ public class ConsoleInterface {
 
     private SortOptions.SortAlgs choosingAlgorithm() {
         boolean isRunning = true;
-        SortOptions.SortAlgs sortAlgs = null;
+        SortOptions.SortAlgs sortAlgs = SortOptions.SortAlgs.BUBBLE;
         while (isRunning) {
             System.out.println("Выберите алгоритм сортировки:");
-            System.out.println("1. First");
-            System.out.println("2. Second");
+            System.out.println("1. Bubble");
+            System.out.println("2. Quick");
             String userAnswer = scanner.nextLine();
             switch (userAnswer) {
                 case "1": {
-                    sortAlgs = null;
                     isRunning = false;
                     break;
                 }
                 case "2": {
-                    sortAlgs = null;
+                    sortAlgs = SortOptions.SortAlgs.QUICK;
                     isRunning = false;
                     break;
                 }
