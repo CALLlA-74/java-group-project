@@ -5,6 +5,8 @@ import ru.project.Domain.models.StudentBuilder;
 import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Service.IStudentService;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ConsoleInterface {
@@ -12,8 +14,15 @@ public class ConsoleInterface {
     private final Scanner scanner;
 
     public ConsoleInterface(IStudentService studentService) {
-        this.scanner = new Scanner(System.in);
         this.studentService = studentService;
+
+        this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+
+        try {
+            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void run() {
@@ -136,6 +145,7 @@ public class ConsoleInterface {
         studentBuilder.setGroupId(groupId);
 
         while (true) {
+            clearConsole();
             System.out.println("Введите номер зачетки");
             String documentIdString = scanner.nextLine();
             try {
@@ -148,6 +158,7 @@ public class ConsoleInterface {
         }
 
         while (true) {
+            clearConsole();
             System.out.println("Введите средний балл");
             String averageMarkString = scanner.nextLine();
             try {
@@ -200,20 +211,19 @@ public class ConsoleInterface {
 
     private SortOptions.SortAlgs choosingAlgorithm() {
         boolean isRunning = true;
-        SortOptions.SortAlgs sortAlgs = null;
+        SortOptions.SortAlgs sortAlgs = SortOptions.SortAlgs.BUBBLE;
         while (isRunning) {
             System.out.println("Выберите алгоритм сортировки:");
-            System.out.println("1. First");
-            System.out.println("2. Second");
+            System.out.println("1. Bubble");
+            System.out.println("2. Quick");
             String userAnswer = scanner.nextLine();
             switch (userAnswer) {
                 case "1": {
-                    sortAlgs = null;
                     isRunning = false;
                     break;
                 }
                 case "2": {
-                    sortAlgs = null;
+                    sortAlgs = SortOptions.SortAlgs.QUICK;
                     isRunning = false;
                     break;
                 }

@@ -71,15 +71,15 @@ public class ConsoleInterfaceTest {
     @Test
     public void testAddStudentSuccess() {
 
-        String input = "1\n3\nIvanov\nIvan\nG1\n123\n4.5\n5\n";
+        String input = "1\n3\nИванов\nИван\nG1\n123\n4.5\n5\n";
         provideInput(input);
 
         consoleInterface.run();
 
         assertNotNull("Студент должен был добавиться", serviceStub.lastAddedStudent);
 
-        assertEquals("Ivanov", getPrivateField(serviceStub.lastAddedStudent, "surname"));
-        assertEquals("Ivan", getPrivateField(serviceStub.lastAddedStudent, "name"));
+        assertEquals("Иванов", getPrivateField(serviceStub.lastAddedStudent, "surname"));
+        assertEquals("Иван", getPrivateField(serviceStub.lastAddedStudent, "name"));
 
         float rating = (float) getPrivateField(serviceStub.lastAddedStudent, "avgRating");
         assertEquals(4.5f, rating, 0.0001f);
@@ -98,11 +98,11 @@ public class ConsoleInterfaceTest {
 
     @Test
     public void testSearchStudent() {
-        String input = "3\nPetrov\nPetr\nG2\n999\n5.0\n5\n";
+        String input = "3\nПетров\nПетр\nG2\n999\n5.0\n5\n";
         provideInput(input);
         consoleInterface.run();
 
         assertNotNull(serviceStub.lastSearchTemplate);
-        assertEquals("Petrov", getPrivateField(serviceStub.lastSearchTemplate, "surname"));
+        assertEquals("Петров", getPrivateField(serviceStub.lastSearchTemplate, "surname"));
     }
 }
