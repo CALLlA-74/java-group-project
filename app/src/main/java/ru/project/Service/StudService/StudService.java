@@ -70,7 +70,9 @@ public class StudService implements IStudentService {
 
         //Компаратор по ТЗ
         Comparator<Student> comparator = Comparator
-                .comparing(Student::getGroupId)
+                .comparing(Student::getSurname)
+                .thenComparing(Student::getName)
+                .thenComparing(Student::getGroupId)
                 .thenComparing(Student::getAvgRating)
                 .thenComparing(Student::getAcheivmentSheetNumber);
 
