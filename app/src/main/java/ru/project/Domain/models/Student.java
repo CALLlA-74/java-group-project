@@ -52,9 +52,14 @@ public class Student {
     }
     @Override
     public String toString() {
-        return surname + " " + name + System.lineSeparator() +
-                "   группа: " + groupId + System.lineSeparator() +
-                "   номер зачетки: " + acheivmentSheetNumber + System.lineSeparator() +
-                "   средний балл: " + String.format("%.2f", avgRating);
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(surname).append(" ").append(name).append(System.lineSeparator());
+        sb.append("   группа: ").append(groupId).append(System.lineSeparator());
+        sb.append("   номер зачетки: ").append(acheivmentSheetNumber).append(System.lineSeparator());
+        sb.append("   средний балл: ")
+                .append(Math.round(avgRating * 100.0) / 100.0);
+
+        return sb.toString();
     }
 }
