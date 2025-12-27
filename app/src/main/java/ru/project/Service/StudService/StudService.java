@@ -105,14 +105,14 @@ public class StudService implements IStudentService {
         if (options.getSortType() == SortOptions.SortTypes.DEFAULT) {
             algorithm.sort(students, comparator);
         } else {
-            sortEvenOnly(students, algorithm, comparator);
+            sortEvenOnly(students, algorithm);
         }
+
     }
 
     private void sortEvenOnly(
             List<Student> students,
-            SortAlgorithm<Student> algorithm,
-            Comparator<Student> comparator
+            SortAlgorithm<Student> algorithm
     ) {
         List<Student> evenStudents = new ArrayList<>();
         List<Integer> evenIndexes = new ArrayList<>();
@@ -125,13 +125,15 @@ public class StudService implements IStudentService {
             }
         }
 
-        algorithm.sort(evenStudents, comparator);
+        Comparator<Student> evenComparator =
+                Comparator.comparingInt(Student::getAcheivmentSheetNumber);
+
+        algorithm.sort(evenStudents, evenComparator);
 
         for (int i = 0; i < evenIndexes.size(); i++) {
             students.set(evenIndexes.get(i), evenStudents.get(i));
         }
     }
-
     @Override
     public int searchStud(Student stud) {
         // TODO Auto-generated method stub
