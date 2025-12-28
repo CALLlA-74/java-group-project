@@ -93,8 +93,10 @@ public class StudServiceTest {
                 .thenComparing(Student::getAvgRating)
                 .thenComparing(Student::getAcheivmentSheetNumber);
 
-        if (opts.getDirection() == SortOptions.SortDirections.DESC) {
-            comparator = comparator.reversed();
+        if (opts.getDirection() == SortOptions.SortDirections.DESC 
+            && opts.getSortType() == SortOptions.SortTypes.DEFAULT) {
+            
+                comparator = comparator.reversed();
         }
 
         return comparator;
