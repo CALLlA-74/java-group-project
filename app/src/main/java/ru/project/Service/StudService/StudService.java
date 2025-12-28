@@ -1,7 +1,9 @@
 package ru.project.Service.StudService;
 
 import java.util.List;
-
+import java.io.FileWriter;
+import java.io.IOException;
+import ru.project.Config.Config;
 import ru.project.Domain.models.Student;
 import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Repository.IStudentRepo;
@@ -24,6 +26,7 @@ public class StudService implements IStudentService {
     @Override
     public boolean fillFromFile(String filePath) {
         try {
+            studentRepo.fillFromFile(filePath);
             return true;
         } catch (Exception e){
             return false;
@@ -50,11 +53,18 @@ public class StudService implements IStudentService {
     @Override
     public int searchStud(Student stud) {
         int result = studentRepo.searchStud(stud);
-        logResult(result);
+        logResult(stud, result);
         return result;
     }
 
-    private void logResult(int result) {
+    private void logResult(Student student, int count) {
+        try (FileWriter writer = new FileWriter(Config.logPath, true)) {
+            writer.write("Поиск студента: " + student.getName() + "\n");
+            writer.write("Найдено: " + count + "\n");
+            writer.write("------------\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
