@@ -5,6 +5,7 @@ import java.util.List;
 import ru.project.Domain.models.Student;
 import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Repository.IStudentRepo;
+import ru.project.Repository.ListStudRepo.ListStudRepo;
 import ru.project.Service.IStudentService;
 
 public class StudService implements IStudentService {
@@ -22,14 +23,16 @@ public class StudService implements IStudentService {
 
     @Override
     public boolean fillFromFile(String filePath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fillFromFile'");
+        try {
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     @Override
     public boolean addStudent(Student stud) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addStudent'");
+        return studentRepo.store(stud);
     }
 
     @Override
@@ -46,8 +49,12 @@ public class StudService implements IStudentService {
 
     @Override
     public int searchStud(Student stud) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchStud'");
+        int result = studentRepo.searchStud(stud);
+        logResult(result);
+        return result;
+    }
+
+    private void logResult(int result) {
     }
 
     @Override
