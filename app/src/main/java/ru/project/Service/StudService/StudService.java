@@ -1,6 +1,16 @@
 package ru.project.Service.StudService;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import ru.project.Domain.exceptions.BuildingStudentException;
 import ru.project.Domain.models.Student;
@@ -43,8 +53,28 @@ public class StudService implements IStudentService {
 
     @Override
     public boolean fillFromFile(String filePath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fillFromFile'");
+        var data = new byte[0];
+        try {
+            data = Files.readAllBytes(Paths.get(filePath));
+        } catch (IOException e) {
+            return false;
+        }
+        if (data.length == 0) return false;
+
+        Gson gson = new Gson();
+        var listType = new TypeToken<List<Student>>(){}.getType();
+        var ans = true;
+
+        try {
+            List<Student> studs = gson.fromJson(new String(data), listType);
+            
+            for (var s : studs) 
+                ans &= studentRepo.store(s);
+        } catch (JsonSyntaxException e) {
+            return false;
+        }
+
+        return ans;
     }
 
     @Override
