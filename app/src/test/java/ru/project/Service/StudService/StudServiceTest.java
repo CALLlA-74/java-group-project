@@ -1,11 +1,17 @@
 package ru.project.Service.StudService;
 
+import static org.junit.Assert.*;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import com.google.gson.Gson;
 
 import ru.project.Domain.models.Student;
 import ru.project.Lib.Sorting.SortOptions;
@@ -28,6 +34,37 @@ public class StudServiceTest {
         
         service = new StudService(repo);
         assert(service.genStuds(5) == false);
+    }
+
+    private static void initFile(List<Student> studs, String filePath) {
+        var gson = new Gson();
+        try (FileWriter writer = new FileWriter(filePath)) {
+            gson.toJson(studs, writer);
+        } catch (IOException e) {
+            assertTrue(e.getStackTrace().toString(), false);
+        }
+    }
+
+    private static List<Student> iniStudents(int numOfStuds) {
+        var service = new StudService(new MockStudRepo(new ArrayList<Student>(numOfStuds)));
+        assert(service.genStuds(numOfStuds));
+        assert(service.getAllStuds().size() == numOfStuds);
+        return service.getAllStuds();
+    }
+
+    @Test public void fillFromFileTest() {
+        String filePath = "./input.json";
+        int numOfStuds = 2000;
+        var srcStuds = iniStudents(numOfStuds);
+        initFile(srcStuds, filePath);
+
+        var service = new StudService(new MockStudRepo(new ArrayList<Student>(numOfStuds)));
+        assert(service.fillFromFile(filePath));
+        assert(service.getAllStuds().size() == srcStuds.size());
+        var studs = service.getAllStuds();
+        for (int i = srcStuds.size() - 1; i >= 0; i--) {
+            assert(srcStuds.get(i).equals(studs.get(i)));
+        }
     }
 
     @Test
@@ -73,14 +110,8 @@ public class StudServiceTest {
     }
 
     private static IStudentService initService() {
-        /*List<Student> mockStudents = new ArrayList<>();
-        mockStudents.add(new Student("Ivan", "Ivanov", "B2", 3, 4.5f)); // нечетный
-        mockStudents.add(new Student("Petr", "Petrov", "A1", 1, 4.8f)); // нечетный
-        mockStudents.add(new Student("Alex", "Sidorov", "A1", 2, 3.9f)); // четный
-        mockStudents.add(new Student("Maria", "Ivanova", "B1", 4, 4.2f)); // четный */
-
         IStudentService service = new StudService(new MockStudRepo(new ArrayList<>()));
-        assert(service.genStuds(1000));
+        assert(service.genStuds(10));
 
         return service;
     }
@@ -93,8 +124,10 @@ public class StudServiceTest {
                 .thenComparing(Student::getAvgRating)
                 .thenComparing(Student::getAcheivmentSheetNumber);
 
-        if (opts.getDirection() == SortOptions.SortDirections.DESC) {
-            comparator = comparator.reversed();
+        if (opts.getDirection() == SortOptions.SortDirections.DESC 
+            && opts.getSortType() == SortOptions.SortTypes.DEFAULT) {
+            
+                comparator = comparator.reversed();
         }
 
         return comparator;
