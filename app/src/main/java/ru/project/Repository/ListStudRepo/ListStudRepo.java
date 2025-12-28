@@ -7,9 +7,9 @@ import ru.project.Domain.models.Student;
 import ru.project.Repository.IStudentRepo;
 
 public class ListStudRepo implements IStudentRepo {
-    private List<Student> students;
+   private List<Student> students;
 
-    public ListStudRepo(List<Student> students) {
+   public ListStudRepo(List<Student> students) {
         this.students = students;
     }
 

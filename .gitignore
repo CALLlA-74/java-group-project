@@ -6,3 +6,5 @@ build
 app/bin
 
 .vscode
+
+actions.log

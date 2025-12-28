@@ -17,9 +17,9 @@ public interface IStudentRepo {
      * @return возвращает коллекцию всех студентов
      */
     public List<Student> getAll();
-    
+
     /**
-     * 
+     *
      * @param stud
      * @return
      */
