@@ -1,6 +1,9 @@
 package ru.project.Lib.Searching;
 
+import ru.project.Config.Config;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,6 +28,7 @@ public class MultiThreadCounter {
                     }
                 }
             });
+
             threads[i].start();
         }
 
@@ -36,6 +40,30 @@ public class MultiThreadCounter {
             }
         }
 
-        return counter.get();
+        int result = counter.get();
+
+        System.out.println(
+                "Количество вхождений элемента: " + result
+        );
+
+        //логирование в файл
+        writeToLog(element, result, numThreads);
+
+        return result;
+    }
+
+    private static <T> void writeToLog(T element, int count, int numThreads) {
+        try (FileWriter fw = new FileWriter(Config.logPath, true)) {
+            fw.write("Поиск элемента: " + element.toString());
+            fw.write(System.lineSeparator());
+            fw.write("Количество вхождений: " + count);
+            fw.write(System.lineSeparator());
+            fw.write("Потоков использовано: " + numThreads);
+            fw.write(System.lineSeparator());
+            fw.write("-----");
+            fw.write(System.lineSeparator());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

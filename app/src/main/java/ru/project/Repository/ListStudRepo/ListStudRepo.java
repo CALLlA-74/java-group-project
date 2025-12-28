@@ -28,7 +28,7 @@ public class ListStudRepo implements IStudentRepo {
 
     @Override
     public int searchStud(Student student) {
-        return MultiThreadCounter.count(Config.thread_count, students, student);
+        return MultiThreadCounter.count(Config.threadCount, students, student);
     }
 
     @Override
