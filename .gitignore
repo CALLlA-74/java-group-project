@@ -8,3 +8,4 @@ app/bin
 .vscode
 
 actions.log
+input.json
