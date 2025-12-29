@@ -3,13 +3,15 @@ package ru.project.Repository.ListStudRepo;
 import java.util.List;
 import java.util.stream.Stream;
 
+import ru.project.Config.Config;
 import ru.project.Domain.models.Student;
+import ru.project.Lib.Searching.MultiThreadCounter;
 import ru.project.Repository.IStudentRepo;
 
 public class ListStudRepo implements IStudentRepo {
-   private List<Student> students;
+    private List<Student> students;
 
-   public ListStudRepo(List<Student> students) {
+    public ListStudRepo(List<Student> students) {
         this.students = students;
     }
 
@@ -31,14 +33,13 @@ public class ListStudRepo implements IStudentRepo {
     }
 
     @Override
-    public int searchStud(Student stud) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchStud'");
+    public int searchStud(Student student) {
+        return MultiThreadCounter.count(Config.threadCount, students, student);
     }
 
     @Override
     public void removeAll() {
         students.clear();
     }
-    
+
 }

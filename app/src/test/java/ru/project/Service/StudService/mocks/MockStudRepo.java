@@ -7,7 +7,7 @@ import ru.project.Repository.IStudentRepo;
 
 public class MockStudRepo implements IStudentRepo {
     private List<Student> studs;
-
+//
     public MockStudRepo(List<Student> studs) {
         this.studs = studs;
     }

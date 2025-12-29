@@ -1,5 +1,6 @@
 package ru.project.Service.StudService;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,8 +19,8 @@ import ru.project.Config.Config;
 import ru.project.Domain.exceptions.BuildingStudentException;
 import ru.project.Domain.models.Student;
 import ru.project.Domain.models.StudentBuilder;
-import ru.project.Lib.Sorting.SortOptions;
 import ru.project.Repository.IStudentRepo;
+import ru.project.Repository.ListStudRepo.ListStudRepo;
 import ru.project.Service.IStudentService;
 import ru.project.Service.StringGenerator;
 
@@ -105,7 +106,6 @@ public class StudService implements IStudentService {
         writeToLog(students);
     }
 
-
     private void sortInternal(List<Student> students, SortOptions options) {
 
         //Выбор алгоритма
@@ -159,10 +159,22 @@ public class StudService implements IStudentService {
             students.set(evenIndexes.get(i), evenStudents.get(i));
         }
     }
+
     @Override
     public int searchStud(Student stud) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchStud'");
+        int result = studentRepo.searchStud(stud);
+        logResult(stud, result);
+        return result;
+    }
+
+    private void logResult(Student student, int count) {
+        try (FileWriter writer = new FileWriter(Config.logPath, true)) {
+            writer.write("Поиск студента: " + student.toString() + "\n");
+            writer.write("Найдено: " + count + "\n");
+            writer.write("------------\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

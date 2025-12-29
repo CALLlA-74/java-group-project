@@ -17,29 +17,6 @@ public class Student {
         this.avgRating = avgRating;
     }
 
-    //ГЕТТЕРЫ
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public float getAvgRating() {
-        return avgRating;
-    }
-
-    public int getAcheivmentSheetNumber() {
-        return acheivmentSheetNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (o instanceof Student) {
             Student s = (Student) o;
@@ -51,16 +28,24 @@ public class Student {
         } else return false;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(surname).append(" ").append(name).append(System.lineSeparator());
-        sb.append("   группа: ").append(groupId).append(System.lineSeparator());
-        sb.append("   номер зачетки: ").append(acheivmentSheetNumber).append(System.lineSeparator());
-        sb.append("   средний балл: ")
-                .append(Math.round(avgRating * 100.0) / 100.0);
+    public String getName() {
+        return name;
+    }
 
-        return sb.toString();
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public int getAcheivmentSheetNumber() {
+        return acheivmentSheetNumber;
+    }
+
+    public float getAvgRating() {
+        return avgRating;
     }
 }
