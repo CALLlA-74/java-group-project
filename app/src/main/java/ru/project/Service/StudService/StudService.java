@@ -25,12 +25,8 @@ public class StudService implements IStudentService {
 
     @Override
     public boolean fillFromFile(String filePath) {
-        try {
-            studentRepo.fillFromFile(filePath);
-            return true;
-        } catch (Exception e){
-            return false;
-        }
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fillFromFile'");
     }
 
     @Override
@@ -59,7 +55,7 @@ public class StudService implements IStudentService {
 
     private void logResult(Student student, int count) {
         try (FileWriter writer = new FileWriter(Config.logPath, true)) {
-            writer.write("Поиск студента: " + student.getName() + "\n");
+            writer.write("Поиск студента: " + student.toString() + "\n");
             writer.write("Найдено: " + count + "\n");
             writer.write("------------\n");
         } catch (IOException e) {
