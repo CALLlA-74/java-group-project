@@ -48,4 +48,17 @@ public class Student {
     public float getAvgRating() {
         return avgRating;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(surname).append(" ").append(name).append(System.lineSeparator());
+        sb.append("   группа: ").append(groupId).append(System.lineSeparator());
+        sb.append("   номер зачетки: ").append(acheivmentSheetNumber).append(System.lineSeparator());
+        sb.append("   средний балл: ")
+                .append(Math.round(avgRating * 100.0) / 100.0);
+
+        return sb.toString();
+    }
 }
