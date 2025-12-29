@@ -82,8 +82,7 @@ public class StudService implements IStudentService {
 
     @Override
     public boolean addStudent(Student stud) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addStudent'");
+        return studentRepo.store(stud);
     }
 
     @Override
