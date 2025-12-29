@@ -116,20 +116,29 @@ public class StudServiceTest {
         return service;
     }
 
+    @SuppressWarnings("unchecked")
     private static Comparator<Student> compByOpts(SortOptions opts) {
-        Comparator<Student> comparator = Comparator
-                .comparing(Student::getSurname)
-                .thenComparing(Student::getName)
-                .thenComparing(Student::getGroupId)
-                .thenComparing(Student::getAvgRating)
-                .thenComparing(Student::getAcheivmentSheetNumber);
-
-        if (opts.getDirection() == SortOptions.SortDirections.DESC 
-            && opts.getSortType() == SortOptions.SortTypes.DEFAULT) {
-            
-                comparator = comparator.reversed();
+        Comparator comparator = null;
+        switch (opts.getSortType()) {
+            case DEFAULT:
+                comparator = Comparator
+                    .comparing(Student::getSurname)
+                    .thenComparing(Student::getName)
+                    .thenComparing(Student::getGroupId)
+                    .thenComparing(Student::getAvgRating)
+                    .thenComparing(Student::getAcheivmentSheetNumber);
+                
+                if (opts.getDirection() == SortOptions.SortDirections.DESC) {
+                    comparator = comparator.reversed();
+                }
+                break;
+        
+            case EVEN_ONLY:
+                comparator = Comparator.comparing(Student::getAcheivmentSheetNumber);
+                break;
         }
 
+        assert(comparator != null);
         return comparator;
     }
 
