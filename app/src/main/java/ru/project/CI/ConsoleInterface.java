@@ -66,7 +66,6 @@ public class ConsoleInterface {
             System.out.println("1. заполнение из файла.");
             System.out.println("2. генерация студентов.");
             System.out.println("3. добавить студента вручную.");
-            System.out.println("4. выйти в главное меню.");
             String userAnswer = scanner.nextLine();
             switch (userAnswer) {
                 case "1": {
@@ -79,10 +78,6 @@ public class ConsoleInterface {
                 }
                 case "3": {
                     isRunning = checkValidationStudent(createStudent());
-                    break;
-                }
-                case "4": {
-                    isRunning = false;
                     break;
                 }
                 default: {
@@ -222,7 +217,6 @@ public class ConsoleInterface {
             System.out.println("Выберите алгоритм сортировки:");
             System.out.println("1. Bubble");
             System.out.println("2. Quick");
-            System.out.println("3. выйти в главное меню");
             String userAnswer = scanner.nextLine();
             switch (userAnswer) {
                 case "1": {
@@ -231,10 +225,6 @@ public class ConsoleInterface {
                 }
                 case "2": {
                     sortAlgs = SortOptions.SortAlgs.QUICK;
-                    isRunning = false;
-                    break;
-                }
-                case "3": {
                     isRunning = false;
                     break;
                 }
@@ -254,7 +244,6 @@ public class ConsoleInterface {
             System.out.println("Выберите тип сортировки:");
             System.out.println("1. по всем полям");
             System.out.println("2. по номеру зачетки");
-            System.out.println("3. выйти в главное меню");
             String userAnswer = scanner.nextLine();
             switch (userAnswer) {
                 case "1": {
@@ -263,10 +252,6 @@ public class ConsoleInterface {
                 }
                 case "2": {
                     sortType = SortOptions.SortTypes.EVEN_ONLY;
-                    isRunning = false;
-                    break;
-                }
-                case "3": {
                     isRunning = false;
                     break;
                 }
@@ -287,7 +272,6 @@ public class ConsoleInterface {
             System.out.println("Выберите порядок сортировки:");
             System.out.println("1. по возрастанию");
             System.out.println("2. по убыванию");
-            System.out.println("3. выйти в главное меню");
             String userAnswer2 = scanner.nextLine();
             switch (userAnswer2) {
                 case "1": {
@@ -297,9 +281,6 @@ public class ConsoleInterface {
                 case "2": {
                     sortDirection = SortOptions.SortDirections.DESC;
                     isRunning = false;
-                    break;
-                }
-                case "3": {
                     break;
                 }
                 default: {
